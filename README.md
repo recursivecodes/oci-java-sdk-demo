@@ -2,8 +2,7 @@
 
 Make sure you have an OCI config located at `~/.oci/config` and a `DEFAULT` profile configured.
 
-!!! note
-Run the following code under an Oracle Java JDK (11+)
+*NOTE:* Run the following code under an Oracle Java JDK (11+)
 
 Run:
 
