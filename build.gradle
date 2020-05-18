@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "application"
+}
+
+group 'codes.recursive'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'com.oracle.oci.sdk', name: 'oci-java-sdk-common', version: '1.17.3'
+    implementation group: 'com.oracle.oci.sdk', name: 'oci-java-sdk-objectstorage', version: '1.17.3'
+    compile 'com.sun.activation:javax.activation:1.2.0'
+}
+
+mainClassName = "codes.recursive.Test"
+
+java {
+    sourceCompatibility = JavaVersion.toVersion('11')
+    targetCompatibility = JavaVersion.toVersion('11')
+}
+
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+    options.compilerArgs.add('-parameters')
+}
+
+shadowJar {
+    mergeServiceFiles()
+}
+
+tasks.withType(JavaExec) {
+    jvmArgs('-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+}
+
