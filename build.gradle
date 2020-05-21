@@ -11,24 +11,11 @@ repositories {
     mavenCentral()
 }
 
-configurations.all {
-    exclude(group: 'org.bouncycastle', module: 'bcprov-jdk15on')
-    exclude(group: 'org.bouncycastle', module: 'bcpkix-jdk15on')
-}
-
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation(group: 'com.oracle.oci.sdk', name: 'oci-java-sdk-common', version: '1.17.3')
     implementation(group: 'com.oracle.oci.sdk', name: 'oci-java-sdk-objectstorage', version: '1.17.3')
     compile 'com.sun.activation:javax.activation:1.2.0'
-
-    shadow group: 'org.bouncycastle', name: 'bcprov-jdk15to18', version: '1.65'
-    shadow group: 'org.bouncycastle', name: 'bcpkix-jdk15to18', version: '1.65'
-}
-
-task copyShadowLibs(type: Copy) {
-    from configurations.shadow
-    into 'build/libs'
 }
 
 mainClassName = "codes.recursive.Test"
@@ -46,7 +33,6 @@ tasks.withType(JavaCompile){
 shadowJar {
     mergeServiceFiles()
 }
-shadowJar.dependsOn(copyShadowLibs)
 
 tasks.withType(JavaExec) {
     jvmArgs('-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
